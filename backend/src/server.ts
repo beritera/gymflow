@@ -1,3 +1,7 @@
-const nomeSistema: string = "GymFlow";
+import app from "./app";
 
-console.log(`${nomeSistema} backend iniciado com sucesso.`);
+const PORT = 3000;
+
+app.listen(PORT, () => {
+  console.log(`GymFlow API executando na porta ${PORT}`);
+});
