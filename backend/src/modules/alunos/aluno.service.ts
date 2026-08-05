@@ -87,3 +87,15 @@ export function criarAluno(dados: Omit<Aluno, "id" | "ativo">): Aluno {
 
   return aluno;
 }
+
+export function ativarAluno(id: number): Aluno | undefined {
+  const aluno = alunos.find((aluno) => aluno.id === id);
+
+  if (!aluno) {
+    return undefined;
+  }
+
+  aluno.ativo = true;
+
+  return aluno;
+}

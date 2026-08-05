@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { cadastrarAluno, buscarAlunos, buscarAluno, editarAluno, desativarAluno } from "./aluno.controller";
+import { cadastrarAluno, buscarAlunos, buscarAluno, editarAluno, desativarAluno, reativarAluno, } from "./aluno.controller";
 
 const alunoRoutes = Router();
 
@@ -8,5 +8,7 @@ alunoRoutes.get("/alunos", buscarAlunos);
 alunoRoutes.get("/alunos/:id", buscarAluno);
 alunoRoutes.put("/alunos/:id", editarAluno);
 alunoRoutes.patch("/alunos/:id/inativar", desativarAluno);
+alunoRoutes.patch("/alunos/:id/reativar", reativarAluno);
+
 
 export default alunoRoutes;

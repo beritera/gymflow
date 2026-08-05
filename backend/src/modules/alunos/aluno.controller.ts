@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { criarAluno, listarAlunos, buscarAlunoPorId, atualizarAluno, inativarAluno, } from "./aluno.service";
+import { criarAluno, listarAlunos, buscarAlunoPorId, atualizarAluno, inativarAluno, ativarAluno } from "./aluno.service";
 
 
 export function buscarAlunos(request: Request, response: Response) {
@@ -69,6 +69,20 @@ export function desativarAluno(request: Request, response: Response) {
   const id = Number(request.params.id);
 
   const aluno = inativarAluno(id);
+
+  if (!aluno) {
+    return response.status(404).json({
+      erro: "Aluno não encontrado",
+    });
+  }
+
+  return response.status(200).json(aluno);
+}
+
+export function reativarAluno(request: Request, response: Response) {
+  const id = Number(request.params.id);
+
+  const aluno = ativarAluno(id);
 
   if (!aluno) {
     return response.status(404).json({
