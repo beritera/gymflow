@@ -45,6 +45,13 @@ export function criarMatricula(
     throw new Error("Plano está inativo");
   }
 
+  const inicio = new Date(dados.dataInicio);
+  const vencimento = new Date(dados.dataVencimento);
+
+  if (vencimento <= inicio) {
+    throw new Error("Data de vencimento deve ser posterior à data de início");
+  }
+
   const matriculaAtiva = matriculas.find(
     (matricula) =>
       matricula.alunoId === dados.alunoId &&

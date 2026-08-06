@@ -2,6 +2,23 @@ import { Request, Response } from "express";
 import { criarMatricula, listarMatriculas, buscarMatriculaPorId, inativarMatricula } from "./matricula.service";
 
 export function cadastrarMatricula(request: Request, response: Response) {
+  const { alunoId, planoId, dataInicio, dataVencimento } = request.body;
+
+  if (!alunoId || !planoId || !dataInicio || !dataVencimento) {
+    return response.status(400).json({
+      erro: "Aluno, plano, data de início e data de vencimento são obrigatórios",
+    });
+  }
+
+  const inicio = new Date(dataInicio);
+  const vencimento = new Date(dataVencimento);
+
+  if (isNaN(inicio.getTime()) || isNaN(vencimento.getTime())) {
+    return response.status(400).json({
+      erro: "Data de início ou data de vencimento inválida",
+    });
+  }
+
   try {
     const matricula = criarMatricula(request.body);
 
