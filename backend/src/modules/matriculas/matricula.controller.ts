@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { criarMatricula, listarMatriculas, buscarMatriculaPorId, inativarMatricula } from "./matricula.service";
+import { criarMatricula, listarMatriculas, buscarMatriculaPorId, inativarMatricula, matriculaEstaValida, } from "./matricula.service";
 
 export function cadastrarMatricula(request: Request, response: Response) {
   const { alunoId, planoId, dataInicio, dataVencimento } = request.body;
@@ -68,4 +68,23 @@ export function desativarMatricula(request: Request, response: Response) {
   }
 
   return response.status(200).json(matricula);
+}
+
+export function verificarMatricula(request: Request, response: Response) {
+  const id = Number(request.params.id);
+
+  const matricula = buscarMatriculaPorId(id);
+
+  if (!matricula) {
+    return response.status(404).json({
+      erro: "Matrícula não encontrada",
+    });
+  }
+
+  const valida = matriculaEstaValida(id);
+
+  return response.status(200).json({
+    matriculaId: id,
+    valida,
+  });
 }

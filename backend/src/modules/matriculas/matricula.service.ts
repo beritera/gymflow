@@ -52,10 +52,13 @@ export function criarMatricula(
     throw new Error("Data de vencimento deve ser posterior à data de início");
   }
 
+  const hoje = new Date();
+
   const matriculaAtiva = matriculas.find(
     (matricula) =>
       matricula.alunoId === dados.alunoId &&
-      matricula.status === "ATIVA"
+      matricula.status === "ATIVA" &&
+      new Date(matricula.dataVencimento) >= hoje
   );
 
   if (matriculaAtiva) {
@@ -87,4 +90,27 @@ export function inativarMatricula(
   matricula.status = "INATIVA";
 
   return matricula;
+}
+
+export function matriculaEstaValida(id: number): boolean {
+  const matricula = matriculas.find(
+    (matricula) => matricula.id === id
+  );
+
+  if (!matricula) {
+    return false;
+  }
+
+  if (matricula.status !== "ATIVA") {
+    return false;
+  }
+
+  const hoje = new Date();
+  const vencimento = new Date(matricula.dataVencimento);
+
+  if (vencimento < hoje) {
+    return false;
+  }
+
+  return true;
 }
